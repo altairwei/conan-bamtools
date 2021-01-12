@@ -21,5 +21,4 @@ class BamtoolsTestConan(ConanFile):
 
     def test(self):
         if not tools.cross_building(self):
-            os.chdir("bin")
-            self.run(".%sexample" % os.sep)
+            self.run(os.path.join("bin", "example") + " sam_file_1.bam sam_file_2.bam")

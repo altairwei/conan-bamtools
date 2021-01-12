@@ -31,25 +31,25 @@ class BamtoolsConan(ConanFile):
             "conan_basic_setup()"
         )
 
-
     def build(self):
         cmake = CMake(self)
         cmake.configure(source_folder=self._source_subfolder)
         cmake.build()
 
-        # Explicit way:
-        # self.run('cmake %s/hello %s'
-        #          % (self.source_folder, cmake.command_line))
-        # self.run("cmake --build . %s" % cmake.build_config)
-
     def package(self):
-        self.copy("*.h", dst="include", src="hello")
-        self.copy("*hello.lib", dst="lib", keep_path=False)
+        self.copy("*.h", dst="include/BamTools/api",
+            src="src/api", excludes="*Sort.h", keep_path=False)
+        self.copy("*.h", dst="include/BamTools/api/algorithms",
+            src="src/api/include/api/algorithms", keep_path=False)
+        self.copy("*.h", dst="include/BamTools/shared",
+            src="src/include/shared", keep_path=False)
+        self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
         self.copy("*.dylib", dst="lib", keep_path=False)
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["hello"]
+        self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.includedirs.append("include/BamTools")
 
