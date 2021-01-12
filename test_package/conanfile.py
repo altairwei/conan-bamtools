@@ -5,7 +5,7 @@ from conans import ConanFile, CMake, tools
 
 class BamtoolsTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake"
+    generators = "cmake_find_package"
 
     def build(self):
         cmake = CMake(self)
@@ -21,4 +21,4 @@ class BamtoolsTestConan(ConanFile):
 
     def test(self):
         if not tools.cross_building(self):
-            self.run(os.path.join("bin", "example") + " sam_file_1.bam sam_file_2.bam")
+            self.run("./example sam_file_1.bam sam_file_2.bam")

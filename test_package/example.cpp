@@ -8,7 +8,7 @@ using namespace BamTools;
 int main(int argc, char *argv[]) {
     string outputFilename = "merged.bam";
     vector<string> inputFilenames;
-    for (int i = 0; i < argc; ++i) 
+    for (int i = 1; i < argc; ++i) 
         inputFilenames.push_back(argv[i]); 
 
     // provide some input & output filenames
@@ -30,7 +30,6 @@ int main(int argc, char *argv[]) {
     // iterate through all alignments, only keeping ones with high map quality
     BamAlignment al;
     while ( reader.GetNextAlignmentCore(al) ) {
-        if ( al.MapQuality >= 90 )
         writer.SaveAlignment(al);
     }
     // close the reader & writer

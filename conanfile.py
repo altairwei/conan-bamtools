@@ -13,8 +13,9 @@ class BamtoolsConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = {"shared": False}
-    generators = "cmake"
+    generators = "cmake_find_package"
     _source_subfolder = "source_subfolder"
+    requires = "zlib/1.2.11"
 
     def source(self):
         url = 'https://github.com/pezmaster31/bamtools/archive/v%s.tar.gz' % self.version
@@ -23,6 +24,7 @@ class BamtoolsConan(ConanFile):
         if os.path.exists(self._source_subfolder) and os.path.isdir(self._source_subfolder):
             shutil.rmtree(self._source_subfolder)
         os.rename("bamtools-" + self.version, self._source_subfolder)
+        """
         tools.replace_in_file(
             self._source_subfolder + "/CMakeLists.txt",
             "project( BamTools LANGUAGES CXX VERSION %s )" % self.version,
@@ -30,6 +32,7 @@ class BamtoolsConan(ConanFile):
             "include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)\n" +
             "conan_basic_setup()"
         )
+        """
 
     def build(self):
         cmake = CMake(self)
